@@ -15,7 +15,7 @@ import {
  * @param {Response} res レスポンス
  */
 export const torelloEventRouter = (req: Request, res: Response) => {
-    const {action, model} = req.body
+    const {action = {}, model} = req.body
     if (action) {
         const {type = null} = action
         // console.log(`method: ${req.method}`)
