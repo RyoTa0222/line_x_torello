@@ -17,7 +17,7 @@ import {
 export const torelloEventRouter = (req: Request, res: Response) => {
     const {action, model} = req.body
     if (action) {
-        const {type} = action
+        const {type = null} = action
         // console.log(`method: ${req.method}`)
         // console.log(`type: ${req.body.action.type as torelloActionType}`)
         switch(type) {
