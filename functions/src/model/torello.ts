@@ -107,7 +107,7 @@ export const nortifyUpdateCard = (action: torelloActionObject, model: torelloMod
         message += url
     }
     // console.log(JSON.stringify(action))
-    if (updateContents) {
+    if (updateContents.length > 0) {
         sendNotificationToLine(message)
     }
 }
