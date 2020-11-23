@@ -63,34 +63,36 @@ export const nortifyUpdateCard = (action: torelloActionObject, model: torelloMod
     const {memberCreator, data} = action
     const {url} = model
     let message: string = '\n'
+    let updateContents: string = ''
     if (memberCreator) {
         message += `${memberCreator.fullName}さんがカードを更新しました。\n`
     }
     if (data) {
-        message += `変更内容：\n`
+        updateContents += `変更内容：\n`
         const {old} = data
         if (old.name) {
             const {name: newName} = data.card
-            message += `- タイトルの変更：`
-            message += `「${old.name}」→「${newName}」\n`
+            updateContents += `- タイトルの変更：`
+            updateContents += `「${old.name}」→「${newName}」\n`
         }
         if (old.desc) {
             const {desc: newDesc} = data.card
-            message += `- 概要の変更：`
-            message += `「${old.desc}」→「${newDesc}」\n`
+            updateContents += `- 概要の変更：`
+            updateContents += `「${old.desc}」→「${newDesc}」\n`
         }
         if (typeof old.closed === 'boolean') {
             const {closed: newClosed} = data.card
-            if (newClosed) message += `- アーカイブに追加しました。\n`
-            else if (!newClosed) message += `- アーカイブから削除しました。\n`
+            if (newClosed) updateContents += `- アーカイブに追加しました。\n`
+            else if (!newClosed) updateContents += `- アーカイブから削除しました。\n`
         }
         if (old.idList) {
             const {listBefore, listAfter} = data
             if (listBefore && listAfter) {
-                message += `- 「${listBefore.name}」から「${listAfter.name}」にリストを移動しました。\n`
+                updateContents += `- 「${listBefore.name}」から「${listAfter.name}」にリストを移動しました。\n`
             }
         }
     }
+    message += updateContents
     message += '---------\n'
     if (data && 'board' in data) {
         message += `ボード名：${data.board.name}\n`
@@ -105,7 +107,9 @@ export const nortifyUpdateCard = (action: torelloActionObject, model: torelloMod
         message += url
     }
     // console.log(JSON.stringify(action))
-    sendNotificationToLine(message)
+    if (updateContents) {
+        sendNotificationToLine(message)
+    }
 }
 
 /**
