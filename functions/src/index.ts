@@ -19,7 +19,7 @@ app.use(express.urlencoded({
 
 app.use(cors())
 
-app.all('/torello', torelloEventRouter)
+app.post('/torello', torelloEventRouter)
 
 export const api = functions
     .region('asia-northeast1')
